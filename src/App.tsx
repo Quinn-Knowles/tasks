@@ -2,7 +2,7 @@
 import React from "react";
 import "./App.css";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import soulframe from "./Assets/images/soulframe image.jpg";
+import soulframe from "./Assets/images/soulframe image.png";
 
 function App(): JSX.Element {
     return (
@@ -46,7 +46,7 @@ function App(): JSX.Element {
                 height="700"
                 width="1400"
                 src={soulframe}
-                alt="Image from Soulframe Twitter"
+                alt="Image from screenshot"
             />
         </div>
     );
