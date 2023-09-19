@@ -130,30 +130,26 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
+    const holder = [...values];
     const negative = (item: number): boolean => item >= 0;
     const neg_check = values.filter(negative);
-    let counter =0;
-    let position=0;
-   // if (values[2] == 1) return [100, 199, 1, -5,300, 7, 3];
-   // if (values[0] == -100) return [-100, 0, -200, 100, 200];
+    let counter = 0;
+    let position = 0;
     if (neg_check.length == values.length) {
-        values.map((item: number) => (counter = counter + item));
-        const final = [...values, counter];
+        holder.map((item: number) => (counter = counter + item));
+        const final = [...holder, counter];
         return final;
     }
-    let acctuate =0;
-    let location=0;
-    const finals = values.map((item: number) =>
-        item < 0 ? (acctuate = counter) : (counter = counter + item)
+    let acctuate = 0;
+    let location = 0;
+    holder.map((item: number) =>
+        item < 0 ? (acctuate = counter) : (counter = item + counter)
     );
-    values.map((item: number) =>
+    holder.map((item: number) =>
         item < 0 ? (location = position) : (position = position + 1)
     );
-    let cont = [...values];
-    cont.splice(location+1, 0, acctuate);
-    const forreal=cont
+    let cont = [...holder];
+    cont.splice(location + 1, 0, acctuate);
+    const forreal = [...cont];
     return forreal;
-}
-function item(value: number, index: number, array: number[]): unknown {
-    throw new Error("Function not implemented.");
 }
