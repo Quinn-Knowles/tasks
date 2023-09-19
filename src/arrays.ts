@@ -148,7 +148,7 @@ export function injectPositive(values: number[]): number[] {
     holder.map((item: number) =>
         item < 0 ? (location = position) : (position = position + 1)
     );
-    let cont = [...holder];
+    const cont = [...holder];
     cont.splice(location + 1, 0, acctuate);
     const forreal = [...cont];
     return forreal;
