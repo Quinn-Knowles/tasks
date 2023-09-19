@@ -1,3 +1,10 @@
+import {
+    add3,
+    fahrenheitToCelius,
+    shout,
+    isQuestion,
+    convertYesNo
+} from "./functions";
 /**
  * Consume an array of numbers, and return a new array containing
  * JUST the first and last number. If there are no elements, return
@@ -5,7 +12,15 @@
  * the number twice.
  */
 export function bookEndList(numbers: number[]): number[] {
-    return numbers;
+    if (numbers.length == 1) {
+        const new_numbers = [...numbers, ...numbers];
+        return new_numbers;
+    }
+    if (numbers.length == 0) {
+        return numbers;
+    }
+    const new_numbers = [numbers[0], numbers[numbers.length - 1]];
+    return new_numbers;
 }
 
 /**
@@ -13,7 +28,8 @@ export function bookEndList(numbers: number[]): number[] {
  * number has been tripled (multiplied by 3).
  */
 export function tripleNumbers(numbers: number[]): number[] {
-    return numbers;
+    const new_numbers = numbers.map((item) => item * 3);
+    return new_numbers;
 }
 
 /**
@@ -21,7 +37,12 @@ export function tripleNumbers(numbers: number[]): number[] {
  * the number cannot be parsed as an integer, convert it to 0 instead.
  */
 export function stringsToIntegers(numbers: string[]): number[] {
-    return [];
+    const temp_numbers = numbers.map((x) => parseInt(x));
+    const aNaN = (item: number): boolean => Number.isNaN(item);
+    const new_numbers = temp_numbers.map((item) =>
+        isNaN(item) ? (item = 0) : item
+    );
+    return new_numbers;
 }
 
 /**
@@ -32,7 +53,14 @@ export function stringsToIntegers(numbers: string[]): number[] {
  */
 // Remember, you can write functions as lambdas too! They work exactly the same.
 export const removeDollars = (amounts: string[]): number[] => {
-    return [];
+    const numbers = amounts.map((item) =>
+        item.charAt(0) == "$" ? item.slice(1) : item
+    );
+    const temp_numbers = numbers.map((x) => parseInt(x));
+    const new_numbers = temp_numbers.map((item) =>
+        isNaN(item) ? (item = 0) : item
+    );
+    return new_numbers;
 };
 
 /**
@@ -41,7 +69,12 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    return [];
+    const new_messages = messages;
+    new_messages.map((item: string): string => item.toLocaleUpperCase());
+    const ismod = (item: string): boolean =>
+        item.charAt(item.length - 1) != "%";
+    new_messages.filter(ismod);
+    return new_messages;
 };
 
 /**
