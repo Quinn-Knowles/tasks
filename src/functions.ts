@@ -25,13 +25,11 @@ export function add3(first: number, second: number, third: number): number {
  */
 export function shout(message: string): string {
     let Shout = "";
-    if (message.charAt(message.length - 1) == "!") {
-        Shout = message.toLocaleUpperCase();
-    } else if (message.charAt(message.length - 1) == "?") {
-        Shout = "%";
-    } else {
-        Shout = message;
-    }
+    //   if (message.charAt(message.length - 1) == "!") {
+    //       Shout = message.toLocaleUpperCase();
+    //  } else {
+    Shout = message.toLocaleUpperCase() + "!";
+    //   }
     return Shout;
 }
 
