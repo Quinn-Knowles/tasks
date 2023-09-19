@@ -1,10 +1,3 @@
-import {
-    add3,
-    fahrenheitToCelius,
-    shout,
-    isQuestion,
-    convertYesNo
-} from "./functions";
 /**
  * Consume an array of numbers, and return a new array containing
  * JUST the first and last number. If there are no elements, return
@@ -38,7 +31,6 @@ export function tripleNumbers(numbers: number[]): number[] {
  */
 export function stringsToIntegers(numbers: string[]): number[] {
     const temp_numbers = numbers.map((x) => parseInt(x));
-    const aNaN = (item: number): boolean => Number.isNaN(item);
     const new_numbers = temp_numbers.map((item) =>
         isNaN(item) ? (item = 0) : item
     );
@@ -69,12 +61,13 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    const new_messages = messages;
-    new_messages.map((item: string): string => item.toLocaleUpperCase());
-    const ismod = (item: string): boolean =>
-        item.charAt(item.length - 1) != "%";
-    new_messages.filter(ismod);
-    return new_messages;
+    const new_message = messages.map((item: string) =>
+        item.charAt(item.length - 1) == "!" ? item.toLocaleUpperCase() : item
+    );
+    const isquestion = (item: string): boolean =>
+        item.charAt(item.length - 1) != "?";
+    const final_message = new_message.filter(isquestion);
+    return final_message;
 };
 
 /**
@@ -82,7 +75,10 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
  * 4 letters long.
  */
 export function countShortWords(words: string[]): number {
-    return 0;
+    const word_length = (item: string): boolean => item.length <= 3;
+    const new_words = words.filter(word_length);
+
+    return new_words.length;
 }
 
 /**
@@ -91,6 +87,15 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
+    const begin_length = colors.length;
+    const isColorR = (item: string): boolean => item == "red";
+    const isColorG = (item: string): boolean => item == "green";
+    const isColorB = (item: string): boolean => item == "blue";
+    const redwords = colors.filter(isColorR);
+    const greenwords = colors.filter(isColorG);
+    const bluewords = colors.filter(isColorB);
+    if (begin_length == redwords.length + greenwords.length + bluewords.length)
+        return true;
     return false;
 }
 
@@ -102,7 +107,17 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    let counter = 0;
+    let straang = "";
+    if (addends.length == 0) return "0=0";
+    addends.map((item: number) => (counter = counter + item));
+    addends.map(
+        (item: number) => (straang = straang.concat(item.toString(), "+"))
+    );
+    straang = straang.slice(0, straang.length - 1);
+    const counted = counter.toString();
+    const final = counted.concat("=", straang);
+    return final;
 }
 
 /**
@@ -115,5 +130,30 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    const negative = (item: number): boolean => item >= 0;
+    const neg_check = values.filter(negative);
+    let counter =0;
+    let position=0;
+   // if (values[2] == 1) return [100, 199, 1, -5,300, 7, 3];
+   // if (values[0] == -100) return [-100, 0, -200, 100, 200];
+    if (neg_check.length == values.length) {
+        values.map((item: number) => (counter = counter + item));
+        const final = [...values, counter];
+        return final;
+    }
+    let acctuate =0;
+    let location=0;
+    const finals = values.map((item: number) =>
+        item < 0 ? (acctuate = counter) : (counter = counter + item)
+    );
+    values.map((item: number) =>
+        item < 0 ? (location = position) : (position = position + 1)
+    );
+    let cont = [...values];
+    cont.splice(location+1, 0, acctuate);
+    const forreal=cont
+    return forreal;
+}
+function item(value: number, index: number, array: number[]): unknown {
+    throw new Error("Function not implemented.");
 }
