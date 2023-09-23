@@ -88,7 +88,7 @@ export function toShortForm(question: Question): string {
  */
 export function toMarkdown(question: Question): string {
     let result = "# " + question.name + "\n" + question.body;
-    let counter =0;
+    let counter = 0;
     if (question.options[counter] != null) {
         result = result + "\n" + "- " + question.options[counter];
         counter++;
@@ -129,7 +129,8 @@ export function toMarkdown(question: Question): string {
  * `newName`.
  */
 export function renameQuestion(question: Question, newName: string): Question {
-    const { id, name, type, body, expected, options, points, published } = question;
+    const { id, name, type, body, expected, options, points, published } =
+        question;
     const new_Q = {
         id: id,
         name: name,
@@ -150,7 +151,8 @@ export function renameQuestion(question: Question, newName: string): Question {
  * published; if it was published, now it should be not published.
  */
 export function publishQuestion(question: Question): Question {
-    const { id, name, type, body, expected, options, points, published } = question;
+    const { id, name, type, body, expected, options, points, published } =
+        question;
     const new_Q = {
         id: id,
         name: name,
@@ -175,8 +177,12 @@ export function publishQuestion(question: Question): Question {
  * over as "Copy of ORIGINAL NAME" (e.g., so "Question 1" would become "Copy of Question 1").
  * The `published` field should be reset to false.
  */
-export function duplicateQuestion(id2: number, oldQuestion: Question): Question {
-    const { id, name, type, body, expected, options, points, published } = oldQuestion;
+export function duplicateQuestion(
+    id2: number,
+    oldQuestion: Question
+): Question {
+    const { id, name, type, body, expected, options, points, published } =
+        oldQuestion;
     const new_Q = {
         id: id2,
         name: name,
@@ -200,7 +206,8 @@ export function duplicateQuestion(id2: number, oldQuestion: Question): Question 
  * Check out the subsection about "Nested Fields" for more information.
  */
 export function addOption(question: Question, newOption: string): Question {
-    const { id, name, type, body, expected, options, points, published } = question;
+    const { id, name, type, body, expected, options, points, published } =
+        question;
     const new_Q = {
         id: id,
         name: name,
