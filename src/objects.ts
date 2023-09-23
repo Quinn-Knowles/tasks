@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { idText } from "typescript";
 import { Question, QuestionType } from "./interfaces/question";
 
@@ -181,7 +182,7 @@ export function duplicateQuestion(
     id2: number,
     oldQuestion: Question
 ): Question {
-    const { id, name, type, body, expected, options, points, published } =
+    const { name, type, body, expected, options, points, published } =
         oldQuestion;
     const new_Q = {
         id: id2,
@@ -236,7 +237,7 @@ export function mergeQuestion(
     contentQuestion: Question,
     { points }: { points: number }
 ): Question {
-    const { id, name, type, body, expected, options } = contentQuestion;
+    const { type, body, expected, options } = contentQuestion;
     const new_Q = {
         id: id2,
         name: name2,
