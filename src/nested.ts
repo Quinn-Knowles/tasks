@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
 
@@ -6,7 +7,10 @@ import { Question, QuestionType } from "./interfaces/question";
  * that are `published`.
  */
 export function getPublishedQuestions(questions: Question[]): Question[] {
-    return [];
+    let new_Questions = [...questions];
+    const publish_check = (item: Question): boolean => item.published;
+    const final = new_Questions.filter(publish_check);
+    return final;
 }
 
 /**
@@ -15,7 +19,21 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  * `expected`, and an empty array for its `options`.
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
-    return [];
+    let new_Questions = [...questions];
+    const empty_body_check = (item: Question): boolean =>
+        !(
+            item.body.length == 0 &&
+            item.expected.length == 0 &&
+            item.options.length == 0
+        );
+ //   const empty_expected_check = (item: Question): boolean =>
+ //       item.expected.length != 0;
+ //   const empty_options_check = (item: Question): boolean =>
+ //       item.options.length != 0;
+  //  const empty_body = new_Questions.filter(empty_body_check);
+ //   const empty_expected = empty_body.filter(empty_expected_check);
+    const empty_options = new_Questions.filter(empty_body_check);
+    return empty_options;
 }
 
 /***
