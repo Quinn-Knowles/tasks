@@ -1,7 +1,17 @@
 /* eslint-disable prefer-const */
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
-import { makeBlankQuestion } from "./objects";
+import { isCorrect, makeBlankQuestion } from "./objects";
+import {
+    isValid,
+    toShortForm,
+    toMarkdown,
+    duplicateQuestion,
+    renameQuestion,
+    publishQuestion,
+    addOption,
+    mergeQuestion
+} from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -145,9 +155,26 @@ export function toCSV(questions: Question[]): string {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
-    const New_Questions = questions;
+    let new_answers: Answer[] = [];
+    questions.map((item) =>
+        new_answers.push(makeSimpleAnswer(false, item.id, false, ""))
+    );
 
-    return [];
+    return new_answers;
+}
+
+export function makeSimpleAnswer(
+    correct: boolean,
+    questionId: number,
+    submitted: boolean,
+    text: string
+): Answer {
+    return {
+        correct: correct,
+        questionId: questionId,
+        submitted: submitted,
+        text: text
+    };
 }
 
 /***
@@ -155,9 +182,11 @@ export function makeAnswers(questions: Question[]): Answer[] {
  * each question is now published, regardless of its previous published status.
  */
 export function publishAll(questions: Question[]): Question[] {
-    const new_Questions = questions;
-    const make_published = new_Questions.map((item) => (item.published = true));
-    return new_Questions;
+    const new_Questions = [...questions];
+    const make_published = new_Questions.map((item) =>
+        item.published == false ? (item = publishQuestion(item)) : item
+    );
+    return make_published;
 }
 
 /***
@@ -205,7 +234,11 @@ export function renameQuestionById(
     targetId: number,
     newName: string
 ): Question[] {
-    return [];
+    const first_Questions = [...questions];
+    const next_Questions: Question[] = first_Questions.map((item) =>
+        item.id == targetId ? (item = renameQuestion(item, newName)) : item
+    );
+    return next_Questions;
 }
 
 /***
@@ -220,7 +253,28 @@ export function changeQuestionTypeById(
     targetId: number,
     newQuestionType: QuestionType
 ): Question[] {
-    return [];
+    let itterator = 0;
+    let location = 0;
+    const first_Questions = [...questions];
+    first_Questions.map((item) =>
+        item.id == targetId
+            ? (location = itterator)
+            : (itterator = itterator + 1)
+    );
+    const question_with_id = questions[location];
+    const new_question = makeBlankQuestion(
+        question_with_id.id,
+        question_with_id.name,
+        newQuestionType
+    );
+    new_question.body = question_with_id.body;
+    new_question.expected = question_with_id.expected;
+    new_question.options = [];
+    new_question.points = question_with_id.points;
+    new_question.published = question_with_id.published;
+    first_Questions[location] = new_question;
+
+    return first_Questions;
 }
 
 /**
@@ -239,7 +293,33 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string
 ): Question[] {
-    return [];
+    let itterator = 0;
+    let location = 0;
+    const first_Questions = [...questions];
+    first_Questions.map((item) =>
+        item.id == targetId
+            ? (location = itterator)
+            : (itterator = itterator + 1)
+    );
+    const question_with_id = questions[location];
+    const new_question = makeBlankQuestion(
+        question_with_id.id,
+        question_with_id.name,
+        question_with_id.type
+    );
+    new_question.body = question_with_id.body;
+    new_question.expected = question_with_id.expected;
+    new_question.options = [...question_with_id.options];
+    new_question.points = question_with_id.points;
+    new_question.published = question_with_id.published;
+    if (targetOptionIndex == -1) {
+        new_question.options.push(newOption);
+        first_Questions[location] = new_question;
+        return first_Questions;
+    }
+    new_question.options[targetOptionIndex] = newOption;
+    first_Questions[location] = new_question;
+    return first_Questions;
 }
 
 /***
@@ -253,5 +333,43 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number
 ): Question[] {
-    return [];
+    let itterator = 0;
+    let location = 0;
+    const first_Questions = [...questions];
+    first_Questions.map((item) =>
+        item.id == targetId
+            ? (location = itterator)
+            : (itterator = itterator + 1)
+    );
+    const question_with_id = questions[location];
+    const new_question = duplicateQuestion(newId, question_with_id);
+    const final_array = [
+        ...questions.slice(0, location + 1),
+        new_question,
+        ...questions.slice(location + 1)
+    ];
+
+    return final_array;
+}
+
+export function deepCopyQuestion(
+    id: number,
+    name: string,
+    type: QuestionType,
+    body: string,
+    expected: string,
+    options: [],
+    points: number,
+    published:boolean
+): Question {
+    return {
+        id: id,
+        name: name,
+        type: type,
+        body: body,
+        expected: expected,
+        options: options,
+        points: points,
+        published: published
+    };
 }
