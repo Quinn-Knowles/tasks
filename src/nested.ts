@@ -1,7 +1,7 @@
 /* eslint-disable prefer-const */
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
-import { isCorrect, makeBlankQuestion } from "./objects";
+import { makeBlankQuestion } from "./objects";
 import { duplicateQuestion, renameQuestion, publishQuestion } from "./objects";
 
 /**
