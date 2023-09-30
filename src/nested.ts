@@ -2,16 +2,7 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
 import { isCorrect, makeBlankQuestion } from "./objects";
-import {
-    isValid,
-    toShortForm,
-    toMarkdown,
-    duplicateQuestion,
-    renameQuestion,
-    publishQuestion,
-    addOption,
-    mergeQuestion
-} from "./objects";
+import { duplicateQuestion, renameQuestion, publishQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -37,12 +28,6 @@ export function getNonEmptyQuestions(questions: Question[]): Question[] {
             item.expected.length == 0 &&
             item.options.length == 0
         );
- //   const empty_expected_check = (item: Question): boolean =>
- //       item.expected.length != 0;
- //   const empty_options_check = (item: Question): boolean =>
- //       item.options.length != 0;
-  //  const empty_body = new_Questions.filter(empty_body_check);
- //   const empty_expected = empty_body.filter(empty_expected_check);
     const empty_options = new_Questions.filter(empty_body_check);
     return empty_options;
 }
@@ -82,10 +67,8 @@ export function removeQuestion(questions: Question[], id: number): Question[] {
  */
 export function getNames(questions: Question[]): string[] {
     const new_Questions = questions;
-    let new_array = [];
-    const Final_Questions = new_Questions.map((item) =>
-        new_array.push(item.name)
-    );
+    let new_array: string[] = [];
+    new_Questions.map((item: Question) => new_array.push(item.name));
     return new_array;
 }
 
@@ -95,9 +78,7 @@ export function getNames(questions: Question[]): string[] {
 export function sumPoints(questions: Question[]): number {
     const new_Questions = questions;
     let total_points = 0;
-    const Final_Questions = new_Questions.map(
-        (item) => (total_points = item.points + total_points)
-    );
+    new_Questions.map((item) => (total_points = item.points + total_points));
     return total_points;
 }
 
@@ -131,7 +112,7 @@ id,name,options,points,published
 export function toCSV(questions: Question[]): string {
     let returned_String = "id,name,options,points,published";
     const new_Questions = questions;
-    const incon = new_Questions.map(
+    new_Questions.map(
         (item) =>
             (returned_String =
                 returned_String +
@@ -360,7 +341,7 @@ export function deepCopyQuestion(
     expected: string,
     options: [],
     points: number,
-    published:boolean
+    published: boolean
 ): Question {
     return {
         id: id,
