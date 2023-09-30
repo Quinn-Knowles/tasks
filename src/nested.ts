@@ -1,6 +1,7 @@
 /* eslint-disable prefer-const */
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
+import { makeBlankQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -44,6 +45,13 @@ export function findQuestion(
     questions: Question[],
     id: number
 ): Question | null {
+    const new_Questions = questions;
+    const Find_id = (item: Question): boolean => item.id == id;
+    const Final_Questions = new_Questions.filter(Find_id);
+    if (Final_Questions.length == 1) {
+        const Searched_Question = Final_Questions[0];
+        return Searched_Question;
+    }
     return null;
 }
 
@@ -52,7 +60,10 @@ export function findQuestion(
  * with the given `id`.
  */
 export function removeQuestion(questions: Question[], id: number): Question[] {
-    return [];
+    const new_Questions = questions;
+    const Find_id = (item: Question): boolean => item.id != id;
+    const Final_Questions = new_Questions.filter(Find_id);
+    return Final_Questions;
 }
 
 /***
@@ -60,21 +71,34 @@ export function removeQuestion(questions: Question[], id: number): Question[] {
  * questions, as an array.
  */
 export function getNames(questions: Question[]): string[] {
-    return [];
+    const new_Questions = questions;
+    let new_array = [];
+    const Final_Questions = new_Questions.map((item) =>
+        new_array.push(item.name)
+    );
+    return new_array;
 }
 
 /***
  * Consumes an array of questions and returns the sum total of all their points added together.
  */
 export function sumPoints(questions: Question[]): number {
-    return 0;
+    const new_Questions = questions;
+    let total_points = 0;
+    const Final_Questions = new_Questions.map(
+        (item) => (total_points = item.points + total_points)
+    );
+    return total_points;
 }
 
 /***
  * Consumes an array of questions and returns the sum total of the PUBLISHED questions.
  */
 export function sumPublishedPoints(questions: Question[]): number {
-    return 0;
+    const new_Questions = questions;
+    const Find_published = (item: Question): boolean => item.published;
+    const Final_Questions = new_Questions.filter(Find_published);
+    return sumPoints(Final_Questions);
 }
 
 /***
@@ -95,7 +119,24 @@ id,name,options,points,published
  * Check the unit tests for more examples!
  */
 export function toCSV(questions: Question[]): string {
-    return "";
+    let returned_String = "id,name,options,points,published";
+    const new_Questions = questions;
+    const incon = new_Questions.map(
+        (item) =>
+            (returned_String =
+                returned_String +
+                "\n" +
+                item.id.toLocaleString().replace(",", "") +
+                "," +
+                item.name +
+                "," +
+                item.options.length.toLocaleString() +
+                "," +
+                item.points.toLocaleString() +
+                "," +
+                item.published.toLocaleString())
+    );
+    return returned_String;
 }
 
 /**
@@ -104,6 +145,8 @@ export function toCSV(questions: Question[]): string {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
+    const New_Questions = questions;
+
     return [];
 }
 
@@ -112,7 +155,9 @@ export function makeAnswers(questions: Question[]): Answer[] {
  * each question is now published, regardless of its previous published status.
  */
 export function publishAll(questions: Question[]): Question[] {
-    return [];
+    const new_Questions = questions;
+    const make_published = new_Questions.map((item) => (item.published = true));
+    return new_Questions;
 }
 
 /***
@@ -120,6 +165,17 @@ export function publishAll(questions: Question[]): Question[] {
  * are the same type. They can be any type, as long as they are all the SAME type.
  */
 export function sameType(questions: Question[]): boolean {
+    const new_Questions = questions;
+    if (questions.length == 0) {
+        return true;
+    }
+    const first_Question = questions[0];
+    const first_Type = first_Question.type;
+    const check_against = (item: Question): boolean => item.type == first_Type;
+    const Final_Questions = new_Questions.filter(check_against);
+    if (Final_Questions.length == questions.length) {
+        return true;
+    }
     return false;
 }
 
@@ -134,7 +190,9 @@ export function addNewQuestion(
     name: string,
     type: QuestionType
 ): Question[] {
-    return [];
+    const new_question = makeBlankQuestion(id, name, type);
+    const new_Questions = [...questions, new_question];
+    return new_Questions;
 }
 
 /***
