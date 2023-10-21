@@ -6,7 +6,7 @@ export function StartAttempt(): JSX.Element {
     const [in_progress, set_progress] = useState(false);
     function toggle() {
         setattempt(in_progress === false ? -1 + attempts : attempts);
-       // setattempt((attempts) => -1 + attempts);
+        // setattempt((attempts) => -1 + attempts);
         set_progress((in_progress) => !in_progress);
     }
     return (

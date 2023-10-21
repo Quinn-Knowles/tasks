@@ -23,7 +23,6 @@ export function TwoDice(): JSX.Element {
         "No result.",
         "No games played yet!"
     ];
-    const [pair, register_pair] = useState(false);
     const [Result_counter, set_winner] = useState<string>(winner[3]);
     function toggle1() {
         const die1 = d6();
@@ -51,29 +50,17 @@ export function TwoDice(): JSX.Element {
         disable_Right(false);
         disable_left(false);
         set_winner(winner[2]);
-        register_pair(false);
         set_final(false);
     }
     return (
         <span>
             {final && <button onClick={toggle3}> replay? </button>}
             <p>{Result_counter} </p>
-            <Button disabled={Left_has_been_rolled} onClick={toggle1}>
-                {" "}
-                roll left die
-            </Button>
-            <Button disabled={Right_has_been_rolled} onClick={toggle2}>
-                {" "}
-                roll right die
-            </Button>
+            <Button onClick={toggle1}> roll left die</Button>
+            <Button onClick={toggle2}> roll right die</Button>
             <p> here are the die!</p>
-            <button data-testid="left-die" disabled={true}>
-                {die_1}
-            </button>
-            <button data-testid="right-die" disabled={true} onClick={toggle2}>
-                {" "}
-                {die_2}
-            </button>
+            <span data-testid="left-die">{die_1}</span>
+            <span data-testid="right-die"> {die_2}</span>
         </span>
     );
 }
